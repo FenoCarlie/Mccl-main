@@ -1,0 +1,107 @@
+import { useParams } from 'react-router-dom';
+import axios from "axios";
+import DataTable from "react-data-table-component";
+import { useEffect, useState } from 'react';
+import Container from './Container';
+import { format } from 'date-fns';
+
+export default function Historic() {
+    let {num_container} = useParams();
+    const [loading, setLoading] = useState(false);
+    const [historics, setHistorics] = useState({})
+    const [filteredContainer, setFilteredContainer] = useState([]);
+
+
+
+    const getContainer = () => {
+        if (num_container) {
+            setLoading(true)
+        axios.get(`http://localhost:8081/container/historic/${num_container}`)
+        .then(({ data }) => {
+            setLoading(false);
+            setHistorics(data[0]);
+            setFilteredContainer(data);
+        })
+        .catch(() => {
+        setLoading(false);
+        });
+        } else {
+            console.log('no num_container')
+        }
+    };
+
+    useEffect(() => {
+      getContainer();
+  }, []);
+
+    const customStyles = {
+        headRow: {
+            style: {
+            backgroundColor: "#efefef",
+            },
+        },
+        headCells: {
+            style: {
+            fontSize: "16px",
+            fontWeight: "600",
+            textTransform: "uppercase",
+            },
+        },
+        cells: {
+            style: {
+            fontSize: "15px",
+            },
+        },
+        };
+
+        const columns = [
+          { name: "Id_container", selector: "id_container" },
+          { name: "Shipment", selector: "shipment" },
+          { name: "Booking", selector: "booking" },
+          { name: "Client", selector: "client" },
+          { 
+            name: "Date",
+            selector: "date",
+            format: (row) => {
+              return row.date ? format(new Date(row.date), 'dd/MM/yyyy') : '';
+            }
+          },
+          { name: "Transport", selector: "company" },
+          { name: "means of transport", selector: "transport_type" },
+          { name: "Tuck number", selector: "num_truck" },
+          { name: "Wagon number", selector: "num_wagon" },
+          { name: "Platform number", selector: "num_platform" },
+          { name: "Category", selector: "category" },
+          { name: "Status", selector: "status" },
+          { name: "Location", selector: "location" },
+          { name: "Position", selector: "position" },
+        ];
+        
+        const columnsToDisplay = columns.filter((column) => column.selector !== 'id_container');
+        
+
+  return (
+    
+      <div>
+      <div style={{ maxHeight: "900px", overflowY: "auto" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+        <h1>Container: {num_container}</h1>
+        </div>
+        <div style={{ maxWidth: '1600px' }} className="card animated fadeInDown .table-container">
+        <DataTable
+          columns={columnsToDisplay}
+          data={filteredContainer}
+          customStyles={customStyles}
+          pagination
+        />
+        </div>
+      </div>
+    </div>
+  );
+}
