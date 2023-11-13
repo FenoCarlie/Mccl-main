@@ -38,7 +38,7 @@ export default function Login() {
   };
 
   return (
-    <div className="login">
+    <div className="lognin">
       <div className="login-signup-form animated fadeindown">
         <div className="form">
           <form className=".form" onSubmit={onSubmit}>
@@ -49,13 +49,16 @@ export default function Login() {
                 <p>{message}</p>
               </div>
             )}
-            <input
-              className=""
-              type="text"
-              placeholder="reg number"
-              value={regNumber}
-              onChange={(e) => setRegNumber(e.target.value)}
-            />
+            <div className="input-container">
+              <input
+                className=""
+                type="text"
+                placeholder="reg number"
+                value={regNumber}
+                onChange={(e) => setRegNumber(e.target.value)}
+              />
+              <span></span>
+            </div>
             <input
               type="password"
               placeholder="Password"

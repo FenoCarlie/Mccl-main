@@ -1493,13 +1493,9 @@ a {
 /* lognin */
 
 .login input {
+  display: block;
   width: 100%;
-  padding: 10px 10px 10px 10px;
-  outline: 0;
-  border: 1px solid rgba(105, 105, 105, 0.397);
-  border-radius: 10px;
-  margin-top: 10px;
-  font-size: 15px;
+  height: 40px;
 }
 
 /* lognin */

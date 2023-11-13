@@ -38,7 +38,7 @@ export default function Login() {
   };
 
   return (
-    <div className="login">
+    <div className="lognin">
       <div className="login-signup-form animated fadeindown">
         <div className="form">
           <form className=".form" onSubmit={onSubmit}>
